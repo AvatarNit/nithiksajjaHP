@@ -1,0 +1,164 @@
+:root {
+  --primary-logo-color: #cab069;
+  --secondary-logo-color: #9b6e33;
+}
+
+.custom-logo {
+  max-height: 7vh;
+}
+
+.marketing .col-lg-4 {
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+.marketing h2 {
+  font-weight: 400;
+}
+.marketing .col-lg-4 p {
+  margin-right: .75rem;
+  margin-left: .75rem;
+}
+
+i {
+  color: var(--primary-logo-color);
+  /* color: var(--secondary-logo-color); */
+}
+
+.success {
+  color: #07a787;
+  border-color: #07a787;
+}
+
+.error {
+  color: #ff7870;
+  border-color: #ff7870;
+}
+
+.flashed {
+  background-color: rgba(240, 240, 240, .2);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1.5rem;
+  border: 3px solid;
+  padding: .5rem 1.5rem;
+  margin-bottom: 1rem;
+  border-radius: 1rem;
+}
+
+body {
+  padding-top: 56px;
+}
+
+.social-icon {
+  font-size: 4rem;
+  color: #495057;
+}
+.social-icon:hover {
+  color: var(--primary-logo-color);
+}
+.link-card {
+  transition: transform 0.2s;
+}
+.link-card:hover {
+  transform: scale(1.05);
+}
+
+.link-header {
+  /* color: var(--primary-logo-color) !important; */
+  background-color: var(--secondary-logo-color) !important;
+}
+
+.btn-social {
+  background-color: var(--secondary-logo-color);
+}
+
+.btn-social:hover {
+  background-color: #9b6e33;
+  border-color: #9b6e33;
+}
+
+.website-card {
+  transition: transform 0.2s;
+}
+
+.website-card:hover {
+  transform: scale(1.05);
+}
+
+.website-icon {
+  font-size: 4rem;
+  color: #495057;
+}
+
+.website-icon:hover {
+  color: var(--secondary-logo-color);
+}
+
+.btn-website {
+  background-color: var(--secondary-logo-color);
+  border-color: var(--secondary-logo-color);
+  transition: background-color 0.2s, border-color 0.2s;
+}
+
+.btn-website:hover {
+  background-color: #9b6e33;
+  border-color: #9b6e33;
+}
+
+.btn-invs {
+  background-color: #ffffff00;
+}
+
+.form-signin {
+  width: 100%;
+  max-width: 330px;
+  padding: 15px;
+  margin: 0 auto;
+}
+
+.form-signin .checkbox {
+  font-weight: 400;
+}
+
+.form-signin .form-control {
+  position: relative;
+  box-sizing: border-box;
+  height: auto;
+  padding: 10px;
+  font-size: 16px;
+}
+
+.form-signin .form-control:focus {
+  z-index: 2;
+}
+
+.form-signin input[type="text"] {
+  margin-bottom: -1px;
+  border-bottom-right-radius: 0;
+  border-bottom-left-radius: 0;
+}
+
+.form-signin input[type="password"] {
+  margin-bottom: 10px;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+}
+
+.badge-container {
+  position: relative;
+  display: inline-block;
+  font-size: 1rem; /* Adjust the font size as needed */
+}
+.badge-custom {
+  position: absolute;
+  top: -10px;
+  right: -15px;
+  font-size: 0.75rem; /* Adjust the font size as needed */
+}
+.nav-img {
+  width: 40px; /* Adjust the width as needed */
+}
+.bi-chat-left-fill {
+  font-size: 1.5rem; /* Adjust the font size as needed */
+}

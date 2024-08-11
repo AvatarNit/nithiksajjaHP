@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+
+{% block content %}
+<form action="/viewMsg" method="post">
+    <input type="hidden" value="R" name="action">
+    <div class="text-center mb-4">
+        <button type="submit" class="btn btn-social">Save</button>
+    </div>
+    <div class="accordion" id="accordionExample">
+        {% for msg in feedback %}
+        <div class="accordion-item">
+            <h2 class="accordion-header">
+                <button class="accordion-button collapsed d-flex align-items-center" type="button" data-bs-toggle="collapse" data-bs-target="#collapse{{ msg.id }}" aria-expanded="false" aria-controls="collapse{{ msg.id }}">
+                    {% if msg.read == 1 %}
+                    <div class="form-check me-3">
+                        <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" name="check{{ msg.id }}">
+                        <label class="form-check-label" for="flexCheckDefault">
+                          Mark as Read
+                        </label>
+                    </div>
+                    {% endif %}
+                    <span class="fw-bold">
+                        {{ msg.fName.title() }} {{ msg.lName.title() }}
+                    </span>
+                </button>
+            </h2>
+            <div id="collapse{{ msg.id }}" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+                <div class="accordion-body">
+                    <div class="d-flex">
+                        <strong>{{ msg.contact }}</strong>
+                        <span class="ms-auto">{{ msg.time }}</span>
+                    </div>
+                    <br>
+                    {{ msg.message }}
+                </div>
+                {% if session.get("admin", "F") == "T" %}
+                <div class="container text-center">
+                    <a class="btn btn-danger col fs-3" href="/deleteMsg/{{ msg.id }}">Delete</a>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</form>
+{% endblock %}

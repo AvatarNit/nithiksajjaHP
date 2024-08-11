@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+
+{% block content %}
+<header class="bg-primary text-white text-center py-5 link-header">
+    <div class="container">
+        <h1>My Websites</h1>
+        <p class="lead">Explore my projects and creations</p>
+    </div>
+</header>
+
+<!-- Websites Section -->
+<section class="py-5">
+    <div class="container">
+        <div class="row d-flex justify-content-center">
+            <!-- Website 1 -->
+            <div class="col-md-4 mb-4">
+                <div class="card website-card text-center p-3">
+                    <i class="bi bi-globe website-icon"></i>
+                    <h3 class="mt-3">Website Title 1</h3>
+                    <p>This is a brief description of my first website. It showcases my work in web development and design.</p>
+                    <a href="https://www.example.com" target="_blank" class="btn btn-website">Visit Website</a>
+                </div>
+            </div>
+            <!-- Website 2 -->
+            <div class="col-md-4 mb-4">
+                <div class="card website-card text-center p-3">
+                    <i class="bi bi-globe website-icon"></i>
+                    <h3 class="mt-3">Website Title 2</h3>
+                    <p>This is a brief description of my second website. It includes various projects and blogs.</p>
+                    <a href="https://www.example.com" target="_blank" class="btn btn-website">Visit Website</a>
+                </div>
+            </div>
+            <!-- Add more websites as needed -->
+        </div>
+    </div>
+</section>
+{% endblock %}
