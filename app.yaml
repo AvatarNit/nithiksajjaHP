@@ -15,5 +15,3 @@ handlers:
 env_variables:
   FLASK_ENV: 'production'
 
-# Deployment region
-region: us-east1
