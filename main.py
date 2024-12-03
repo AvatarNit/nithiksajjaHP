@@ -177,6 +177,6 @@ def delAcc(id):
 #     return "Subdomain"
 #     return render_template("/site1/index.html")
 
-# if __name__ == "__main__":
-#     app.config["SERVER_NAME"] = "nithiksajja.com"
-#     app.run(host="0.0.0.0", port=80, debug=True)
+if __name__ == "__main__":
+    # app.config["SERVER_NAME"] = "nithiksajja.com"
+    app.run(debug=True, host="0.0.0.0", port=int(os.environ.get("PORT", 8080)))
