@@ -6,7 +6,7 @@ homeDB = SQL("sqlite:///home.db")
 # Feedback Database
 
 def sendMessage(fName, lName, contact, message, time):
-    sql = """INSERT INTO feedback (fName, lName, contact, message, time) VALUES (?, ?, ?, ?, ?)"""
+    sql = """INSERT INTO feedback (fName, lName, contact, message, time, read) VALUES (?, ?, ?, ?, ?, 1)"""
     return homeDB.execute(sql, fName, lName, contact, message, time)
 
 def get_current_datetime():

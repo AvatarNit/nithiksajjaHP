@@ -1,15 +1,89 @@
 from flask import Flask, render_template, request, redirect, session, flash
-from flask_session import Session
+from google.cloud import datastore
+from flask.sessions import SessionInterface, SessionMixin
 import queries as q
+import datetime
+
+
+# Custom session interface for Google Datastore
+class DatastoreSession(dict, SessionMixin):
+    def __init__(self, initial=None, sid=None):
+        super().__init__(initial or {})
+        self.sid = sid
+        self.modified = False
+
+
+class DatastoreSessionInterface(SessionInterface):
+    def __init__(self, client=None, kind='Session'):
+        self.client = client or datastore.Client()
+        self.kind = kind
+
+    def generate_sid(self):
+        from uuid import uuid4
+        return str(uuid4())
+
+    def get_session(self, sid):
+        # Fetch the session from Google Datastore
+        key = self.client.key(self.kind, sid)
+        entity = self.client.get(key)
+        if entity:
+            return DatastoreSession(initial=dict(entity), sid=sid)
+        return None
+
+    def save_session(self, app, session, response):
+        if not session:
+            # Delete session from Datastore if it's empty
+            key = self.client.key(self.kind, session.sid)
+            self.client.delete(key)
+            return
+
+        # Save the session in Google Datastore
+        entity = datastore.Entity(key=self.client.key(self.kind, session.sid))
+        for key, value in session.items():
+            if key == "_flashes" and isinstance(value, list):
+                # Convert list of tuples to a list of strings for storage
+                entity[key] = [f"{category}:{message}" for category, message in value]
+            elif isinstance(value, tuple):
+                # Convert tuple to string
+                entity[key] = str(value)
+            elif isinstance(value, list):
+                # Convert lists with tuples (except `_flashes`) to a compatible format
+                if any(isinstance(item, tuple) for item in value):
+                    entity[key] = [str(item) for item in value]
+                else:
+                    entity[key] = value
+            else:
+                entity[key] = value
+
+        entity['modified'] = datetime.datetime.utcnow()
+        self.client.put(entity)
+
+
+    def open_session(self, app, request):
+        sid = request.cookies.get(app.config["SESSION_COOKIE_NAME"])
+        if not sid:
+            sid = self.generate_sid()
+            return DatastoreSession(sid=sid)
+
+        session = self.get_session(sid)
+        if session:
+            # Convert `_flashes` back to tuples
+            if "_flashes" in session:
+                session["_flashes"] = [
+                    tuple(flash.split(":", 1)) for flash in session["_flashes"]
+                ]
+            return session
+
+        return DatastoreSession(sid=sid)
+
+
 
 app = Flask(__name__)
-# app = Flask(__name__, subdomain_matching=True)
-app.secret_key = "secretcode1234"
+app.secret_key = "704090s4N"
 
-# Configure Session
-app.config["SESSION_PERMENANT"] = False
-app.config["SESSION_TYPE"] = 'filesystem'
-Session(app)
+# Set up Google Datastore as the session backend
+datastore_client = datastore.Client()
+app.session_interface = DatastoreSessionInterface(client=datastore_client)
 
 
 @app.route("/", methods=["GET","POST"])
@@ -21,6 +95,7 @@ def index():
             session["admin"] = "T"
             session["name"] = request.form.get('name')
             session["password"] = request.form.get("pass")
+            # return session["admin"]
         else:
             flash(f"ERROR: Wrong information provided please try again", "error")
             return redirect("/admin")
@@ -33,11 +108,11 @@ def contact():
     if request.method == "GET":
         return render_template("contact.html")
     elif request.method == "POST":
-        fName = request.form.get("fName")
-        lName = request.form.get("lName")
-        email = request.form.get("email")
-        phone = request.form.get("phone")
-        message = request.form.get("message")
+        fName = str(request.form.get("fName"))
+        lName = str(request.form.get("lName"))
+        email = str(request.form.get("email"))
+        phone = str(request.form.get("phone"))
+        message = str(request.form.get("message"))
         
         if not email and not phone:
             flash(f"ERROR: {fName.title()} {lName.title()} did not enter an email or phone number", "error")
@@ -117,9 +192,8 @@ def admin():
 
 @app.route("/logout")
 def logout():
-    name=session.get("name")
+    flash(f"Successfully Logged Out { session.get("name") }", "success")
     session.clear()
-    flash(f"Successfully Logged Out { name }", "success")
     return redirect("/")
 
 @app.route("/addAcc")
@@ -178,5 +252,5 @@ def delAcc(id):
 #     return render_template("/site1/index.html")
 
 if __name__ == "__main__":
-    # app.config["SERVER_NAME"] = "nithiksajja.com"
-    app.run(debug=True, host="0.0.0.0", port=int(os.environ.get("PORT", 8080)))
+    app.config["SERVER_NAME"] = "nithiksajja.com"
+    app.run(debug=True)

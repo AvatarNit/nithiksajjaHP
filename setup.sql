@@ -7,12 +7,14 @@
 DROP TABLE IF EXISTS feedback;
 DROP TABLE IF EXISTS admins;
 DROP TABLE IF EXISTS history;
-CREATE TABLE IF NOT EXISTS feedback (
+CREATE TABLE feedback (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     fName TEXT NOT NULL,
     lName TEXT NOT NULL,
     contact TEXT NOT NULL,
-    message TEXT NOT NULL
+    message TEXT NOT NULL,
+    time TEXT NOT NULL,
+    read INTEGER DEFAULT 1
 );
 
 CREATE TABLE IF NOT EXISTS admins (
@@ -24,9 +26,9 @@ CREATE TABLE IF NOT EXISTS history (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     aName TEXT NOT NULL,
     action TEXT NOT NULL,
-    tableNum INTEGER NOT NULL
+    msg INTEGER NOT NULL
 );
 
-INSERT INTO feedback VALUES ("Nithik", "Sajja", "3177711201", "This website is great!");
+INSERT INTO feedback VALUES (1,"Nithik", "Sajja", "3177711201", "This website is great!","3:28 PM 05/23/2024",1);
 INSERT INTO admins (username, passwords) VALUES ("NITHIK", "704090");
-INSERT INTO history (aName, action, tableNum) VALUES ("NITHIK", "Create",1);
+INSERT INTO history (aName, action, msg) VALUES ("NITHIK", "Create",1);
