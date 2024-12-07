@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<!-- Home Section Start -->
+<section class="home" id="home">
+  <div class="home-content">
+    <h3 class="fs-1">Welcome to Nithik Sajja Recipes<br>Find my favorite <span>Entrée</span> and <span>Dessert</span> recipes here</h3>
+    <a href="/viewRecipes" id="home-btn">View Recipes <i class="fa-solid fa-angles-right"></i></a>
+  </div>
+  <div class="img">
+    <img src="/static/panner.png" alt="">
+  </div>
+</section>
+<!-- Home Section End -->
+
+
+
+<!-- Our Menu Start -->
+<section class="menu" id="menu">
+  <h2><i class="fa-solid fa-arrow-down"></i> Delicious Dishes Are Here <i class="fa-solid fa-arrow-down"></i></h2>
+  
+  {% for row in displayInfo %}
+    {% for recipe in row%}
+      <div class="row" style="margin-top: 30px;">
+        <div class="col-md-3 py-3 py-md-0">
+          <div class="card">
+            <img src="{{ recipe.picName }}" alt="{{ recipe.name }} Picture" class="m-3">
+            <div class="card-body">
+              <h3>{{ recipe.name }}</h3>
+              <h6>{{ recipe.description }}</h6>
+              <a href="/viewRecipe/{{ recipe.name }}" id="home-btn">View Recipe <i class="fa-solid fa-angles-right"></i></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    {% endfor %}
+  {% endfor %}
+</section>
+<!-- Our Menu End -->
+{% endblock %}

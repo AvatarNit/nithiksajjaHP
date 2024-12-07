@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section class="menu" id="menu">
+    <h2><i class="fa-solid fa-arrow-down"></i> Delicious Dishes Are Here <i class="fa-solid fa-arrow-down"></i></h2>
+    
+    <form method="post" action="/viewRecipes">
+        <div class="input-group">
+            <select class="form-select" id="categorySelect" aria-label="Example select with button addon" name="category">
+                <option selected>Meal Type</option>
+                {% for category in categories %}
+                <option value="{{ category.category }}">{{ category.category }}</option>
+                {% endfor %}
+            </select>
+            <select class="form-select" id="inputGroupSelect04" aria-label="Example select with button addon" name="class">
+                <option selected>Requirements</option>
+                <option value="Veg">Veg</option>
+                <option value="Non-Veg">Non-Veg</option>
+            </select>
+            <button class="btn btn-outline-danger" type="submit">Filter</button>
+        </div>
+    </form>
+
+    {% for row in displayInfo %}
+    <div class="row" style="margin-top: 30px;">
+      {% for recipe in row %}
+          <div class="col-md-3 py-3 py-md-0">
+            <div class="card">
+              <img src="{{ recipe.picName }}" alt="{{ recipe.name }} Picture" class="m-3">
+              <div class="card-body">
+                <h3>{{ recipe.name }}</h3>
+                <h6>{{ recipe.description }}</h6>
+                <div class="d-flex justify-content-between">
+                  <a href="/viewRecipe/{{ recipe.name }}" id="home-btn">View Recipe <i class="fa-solid fa-angles-right"></i></a>
+                  {% if session.get("admin","F") == "T" %}
+                    <div>
+                      <a href="/deleteRecipe/{{ recipe.name }}" class="btn btn-outline-danger btn-sm"><i class="fa-solid fa-trash"></i></a>
+                    </div>
+                  {% endif %}
+                </div>
+              </div>
+            </div>
+          </div>
+      {% endfor %}
+    </div>
+    {% endfor %}
+</section>
+{% endblock %}

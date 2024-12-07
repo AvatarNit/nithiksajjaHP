@@ -1,0 +1,110 @@
+{% extends "base.html" %}
+
+{% block script %}
+<script src="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.3/js/all.min.js" integrity="sha384-r6RqeWeci5ZR/Lv4MR0sA0FfDOMTnmTAzFs0j3pp7R8L9J2Z9hgqxYOTIW+I5Y9/" crossorigin="anonymous"></script>
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    const servingsInput = document.querySelector('input[type="number"]');
+    if (servingsInput) {
+        const measureElements = document.querySelectorAll('.measure');
+        const originalServings = {{ recipe.servings }};
+        const originalMeasures = Array.from(measureElements).map(el => parseFloat(el.textContent));
+
+        servingsInput.addEventListener('input', function() {
+            const newServings = parseFloat(servingsInput.value);
+            measureElements.forEach((el, i) => {
+                el.textContent = (originalMeasures[i] * newServings / originalServings).toFixed(2);
+            });
+        });
+    }
+
+    const star = document.getElementById("favorite-star");
+    const recipeName = '{{ recipe.name }}';
+    const isFavorite = '{{ current_recipe }}' === recipeName;
+
+    if (isFavorite) {
+        star.classList.remove("far");
+        star.classList.add("fas");
+    }
+
+    star.addEventListener("click", function() {
+        const isCurrentlyFavorite = star.classList.contains("fas");
+        star.classList.toggle("far", isCurrentlyFavorite);
+        star.classList.toggle("fas", !isCurrentlyFavorite);
+
+        fetch('/toggle_favorite', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ recipe_name: recipeName })
+        });
+    });
+});
+</script>
+{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="p-4 border rounded shadow">
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <div class="flex-grow-1">
+                        <h1 class="text-center mb-0">How To Make {{ recipe.name }}</h1>
+                    </div>
+                    <i id="favorite-star" class="far fa-star fa-2x"></i>
+                </div>
+                <p class="text-center mb-3">{{ recipe.description }}</p>
+                <h2 class="text-center mb-3">Ingredients Needed</h2>
+                <div class="text-center mb-3">
+                    <h5>Servings:</h5>
+                    <input type="number" value="{{ recipe.servings }}" min="1">
+                </div>
+                <ul class="list-group p-5">
+                    {% for ingredient in recipe.ingredients %}
+                    <li class="list-group-item fs-5">
+                        <i class="fa-solid fa-circle fs-7 align-middle"></i>
+                        {% if ingredient | length == 5 %}
+                        <span class="measure">{{ ingredient[1] }}</span> {{ ingredient[2] }}
+                        {% elif ingredient | length == 4 %}
+                        <span class="measure">{{ ingredient[1] }}</span>
+                        {% endif %}
+                        <!-- Button trigger modal -->
+                        <button type="button" class="btn btn-link fs-5 black ps-0" data-bs-toggle="modal" data-bs-target="#{{ ingredient[0] }}">
+                            {{ ingredient[-2] }}
+                        </button>
+                        <!-- Modal -->
+                        <div class="modal fade" id="{{ ingredient[0] }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h1 class="modal-title fs-5" id="exampleModalLabel">{{ ingredient[-2] }}</h1>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body text-center">
+                                        <img src="{{ ingredient[-1] }}" alt="Image of {{ ingredient[-2] }}" width="100%" height="75%">
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    {% endfor %}
+                </ul>
+                <h2 class="text-center mb-3">Instructions</h2>
+                <div class="text-center mb-3">
+                    <iframe width="420" height="315" src="{{ recipe.videoUrl }}"></iframe>
+                </div>
+                <ul class="list-group p-5">
+                    {% for instruction in recipe.instructions %}
+                    <li class="list-group-item fs-5">{{ instruction }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

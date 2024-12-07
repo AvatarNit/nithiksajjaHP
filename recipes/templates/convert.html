@@ -1,0 +1,120 @@
+{% extends "base.html" %}
+
+{% block script %}
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    let gmsRef = document.getElementById("gms");
+    let ozRef = document.getElementById("oz");
+    let tspRef = document.getElementById("tsp");
+    let tbspRef = document.getElementById("tbsp");
+    let cupRef = document.getElementById("cups");
+    let mlRef = document.getElementById("ml");
+
+    let convertFromGrams = () => {
+        let gms = parseFloat(gmsRef.value);
+        ozRef.value = (gms * 0.035274).toFixed(2);
+        tbspRef.value = (gms / 17.07).toFixed(2);
+        tspRef.value = (gms / 5.69).toFixed(2);
+        cupRef.value = (gms / 200).toFixed(2);
+        mlRef.value = gms.toFixed(1);
+    };
+
+    let convertFromOz = () => {
+        let oz = parseFloat(ozRef.value);
+        gmsRef.value = (oz * 28.3495).toFixed(2);
+        cupRef.value = (oz / 8).toFixed(2);
+        tbspRef.value = (oz * 2).toFixed(1);
+        tspRef.value = (oz * 6).toFixed(1);
+        mlRef.value = (oz * 30).toFixed(1);
+    };
+
+    let convertFromTbsp = () => {
+        let tbsp = parseFloat(tbspRef.value);
+        tspRef.value = (tbsp * 3).toFixed(1);
+        gmsRef.value = (tbsp * 17.07).toFixed(2);
+        cupRef.value = (tbsp / 16).toFixed(1);
+        ozRef.value = (tbsp / 2).toFixed(2);
+        mlRef.value = (tbsp * 15).toFixed(1);
+    };
+
+    let convertFromTsp = () => {
+        let tsp = parseFloat(tspRef.value);
+        tbspRef.value = (tsp / 3).toFixed(1);
+        gmsRef.value = (tsp * 5.69).toFixed(2);
+        cupRef.value = (tsp / 48).toFixed(2);
+        ozRef.value = (tsp / 6).toFixed(2);
+        mlRef.value = (tsp * 5).toFixed(1);
+    };
+
+    let convertFromCups = () => {
+        let cups = parseFloat(cupRef.value);
+        tbspRef.value = (cups * 16).toFixed(1);
+        tspRef.value = (cups * 48).toFixed(1);
+        gmsRef.value = (cups * 200).toFixed(1);
+        ozRef.value = (cups * 8).toFixed(1);
+        mlRef.value = (cups * 240).toFixed(1);
+    };
+
+    let convertFromMl = () => {
+        let ml = parseFloat(mlRef.value);
+        cupRef.value = (ml / 240).toFixed(3);
+        tspRef.value = (ml / 5).toFixed(2);
+        tbspRef.value = (ml / 15).toFixed(2);
+        gmsRef.value = ml.toFixed(1);
+        ozRef.value = (ml / 30).toFixed(2);
+    };
+
+    gmsRef.addEventListener("input", convertFromGrams);
+    ozRef.addEventListener("input", convertFromOz);
+    cupRef.addEventListener("input", convertFromCups);
+    tbspRef.addEventListener("input", convertFromTbsp);
+    tspRef.addEventListener("input", convertFromTsp);
+    mlRef.addEventListener("input", convertFromMl);
+
+    window.addEventListener("load", convertFromCups);
+});
+</script>
+{% endblock %}
+
+{% block content %}
+<!-- weight convertor modal box starts -->
+<div class="container">
+    <form action="" class="convertor-form">
+        <h3 class="poetsen-one-regular">
+          <i class="fas fa-spoon"></i> Unit Converter
+          <i class="fas fa-spoon" id="close-convertor"></i>
+        </h3>
+
+        <div class="input-wrapper">
+          <label for="cups">Cups: </label>
+          <input type="number" id="cups" value="1" class="form-control" />
+        </div>
+
+        <div class="input-wrapper">
+          <label for="tbsp">Tablespoon (tbsp): </label>
+          <input type="number" id="tbsp" class="form-control" />
+        </div>
+
+        <div class="input-wrapper">
+          <label for="tsp">Teaspoon (tsp): </label>
+          <input type="number" id="tsp" class="form-control" />
+        </div>
+
+        <div class="input-wrapper">
+          <label for="oz">Ounces (oz): </label>
+          <input type="number" id="oz" class="form-control" />
+        </div>
+
+        <div class="input-wrapper">
+          <label for="gms">Grams (gms): </label>
+          <input type="number" id="gms" class="form-control" />
+        </div>
+
+        <div class="input-wrapper">
+          <label for="ml">Milliliters (ml): </label>
+          <input type="number" id="ml" class="form-control" />
+        </div>
+    </form>
+</div>
+<!-- weight convertor modal box ends -->
+{% endblock %}

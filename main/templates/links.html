@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% block content %}
+<header class="text-white text-center py-5 link-header">
+    <div class="container">
+        <h1>My Links</h1>
+        <p class="lead">Find me on various social platforms</p>
+    </div>
+</header>
+
+<!-- Links Section -->
+<section class="py-5">
+    <div class="container">
+        <div class="row d-flex justify-content-center">
+            <div class="col-md-4 mb-4">
+                <div class="card link-card text-center p-3">
+                    <i class="bi bi-youtube social-icon"></i>
+                    <h3 class="mt-3">YouTube</h3>
+                    <p>Check out my videos on YouTube</p>
+                    <a href="https://www.youtube.com/channel/UCp5uq3IFYIZgIBJ2a0mn0uQ" target="_blank" class="btn btn-social">Visit Channel</a>
+                </div>
+            </div>
+            <div class="col-md-4 mb-4">
+                <div class="card link-card text-center p-3">
+                    <i class="bi bi-github social-icon"></i>
+                    <h3 class="mt-3">GitHub</h3>
+                    <p>See my projects on GitHub</p>
+                    <a href="https://github.com/AvatarNit" target="_blank" class="btn btn-social">Visit Profile</a>
+                </div>
+            </div>
+            <!-- Add more social cards here -->
+        </div>
+    </div>
+</section>
+{% endblock %}

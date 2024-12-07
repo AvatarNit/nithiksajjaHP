@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+
+{% block content %}
+<header class="text-white text-center py-5 link-header">
+    <div class="container">
+        <h1>Contact Me</h1>
+        <p class="lead">I'd love to hear from you. Please fill out the form below to get in touch.</p>
+    </div>
+</header>
+
+<section class="py-5">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-6">
+                <form method="post" action="/contact">
+                    <div class="mb-3">
+                        <div class="input-group">
+                            <span class="input-group-text">First and Last Name</span>
+                            <input type="text" aria-label="First Name" class="form-control" placeholder="First Name" name="fName" required>
+                            <input type="text" aria-label="Last Name" class="form-control" placeholder="Last Name" name="lName" required>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <div class="input-group">
+                            <input type="email" aria-label="Email" class="form-control" placeholder="Email" name="email">
+                            <span class="input-group-text">OR</span>
+                            <input type="tel" aria-label="Phone Number" class="form-control" placeholder="Phone Number" name="phone">
+                        </div>
+                    </div>
+                    <div class="form-floating mb-3">
+                        <textarea class="form-control" aria-label="Message" placeholder="Message" name="message" required id="floatingInput"></textarea>
+                        <label for="floatingInput">Questions, inquiries, or feedback</label>
+                    </div>
+                    <div class="d-grid">
+                        <button class="btn btn-social" type="submit">Submit</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

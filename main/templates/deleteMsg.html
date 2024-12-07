@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Delete Message  From {{ message.fName }} {{ message.lName }}</h1>
+<h2>Please type the first name of the sender and Admin's Name</h2>
+<form action="/viewMsg" method="POST" class="text-center">
+    <div class="form-floating mb-3">
+        <input name="nameSend" type="text" class="form-control" id="floatingInput" placeholder=" First name of sender" autocomplete="off">
+        <label for="floatingInput">First Name of Sender</label>
+    </div>
+    <div class="form-floating">
+        <input name="aName" type="text" class="form-control" id="floatingPassword" placeholder="Admin's Name" autocomplete="off">
+        <label for="floatingPassword">Admin's Name</label>
+    </div>
+    <div class="btn-group" role="group" aria-label="Basic mixed styles example">
+        <button type="submit" class="btn btn-danger" formaction="/viewMsg" formmethod="GET">Cancel</button>
+        <button type="submit" class="btn btn-success">Delete</button>
+    </div>
+    <input type="hidden" value="D" name="action">
+    <input type="hidden" value="{{ message.id }}" name="messageId">
+</form>
+{% endblock %}

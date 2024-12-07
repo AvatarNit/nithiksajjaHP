@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container my-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="p-4 border rounded shadow">
+                <h1>Delete {{ name }}</h1>
+                <form method="POST" action="/deleteRecipe/{{ name }}">
+                    <div class="form-floating mb-3">
+                        <input type="text" class="form-control" id="recipeInput" placeholder="Recipe Name" name="recipeName">
+                        <label for="recipeInput">Recipe Name</label>
+                    </div>
+                    <div class="form-floating mb-3">
+                        <input type="text" class="form-control" id="adminInput" placeholder="Admin Name" name="adminName">
+                        <label for="adminInput">Admin Name</label>
+                    </div>
+                    <button type="submit" class="btn btn-danger">Delete Recipe</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

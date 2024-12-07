@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nithik Sajja Websites</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="icon" href="/static/faviconInvs.ico" type="image/x-icon">
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+
+<body data-bs-theme="dark">
+    <nav class="navbar navbar-expand-lg bg-body-tertiary fixed-top">
+        <div class="container-fluid">
+            <div class="dropdown position-absolute dropend" id="custom-dropdown">
+                <button class="btn btn-invs p-0" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    <img src="/static/faviconInvs.png" class="img-fluid nav-img custom-logo">
+                </button>
+                <ul class="dropdown-menu dropdown-menu-dark">
+                    {% if session.get("admin","F") == "F" %}
+                        <a class="nav-link" href="/admin">Login</a>
+                    {% elif session.get("admin","F") == "T" %}
+                        <li><a class="dropdown-item" href="/viewAcc">View Accounts</a></li>
+                        <li><a class="dropdown-item" href="/addAcc">Add new Account</a></li>
+                        <li><a class="dropdown-item" href="/history">Admin History</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item" href="/logout">Logout</a></li>
+                    {% endif %}
+                </ul>
+            </div>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+                <div class="navbar-nav fs-5 ms-auto">
+                    <a class="nav-link {% if request.path == '/' %}active{% endif %}" href="/">Home</a>
+                    <a class="nav-link {% if request.path == '/websites' %}active{% endif %}" href="/websites">Websites</a>
+                    <a class="nav-link {% if request.path == '/links' %}active{% endif %}" href="/links">Links</a>
+                    <a class="nav-link {% if request.path == '/about' %}active{% endif %}" href="/about">About</a>
+                    <a class="nav-link {% if request.path == '/contact' %}active{% endif %}" href="/contact">Contact Me</a>
+                    {% if session.get("admin","F") == "T" %}
+                    <a class="nav-link {% if request.path == '/contact' %}active{% endif %}" href="/viewMsg">View Messages 
+                        {% if session.get("msgCount",0) > 0%}
+                            <span class="badge text-bg-danger">{{ session.get("msgCount",0) }}</span>
+                        {% endif %}
+                    </a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </nav>
+    <div class="container mt-4">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="flashed {{ category }}">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+    </div>
+    
+    <div class="ps-2 pe-2 pb-5">
+        {% block content %}
+        {% endblock %}
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+</body>
+<footer class="bg-body-tertiary pt-5 pb-5" 
+    {% if request.path == '/contact' %}hidden{% endif %}
+    {% if session.get("admin","F") == "T" %}hidden{% endif %}
+    >
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-6">
+                <form method="post" action="/contact">
+                    <h3 class="text-center">Contact Me</h3>
+                    <div class="mb-3">
+                        <div class="input-group">
+                            <span class="input-group-text">First and Last Name</span>
+                            <input type="text" aria-label="First Name" class="form-control" placeholder="First Name" name="fName" required>
+                            <input type="text" aria-label="Last Name" class="form-control" placeholder="Last Name" name="lName" required>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <div class="input-group">
+                            <input type="email" aria-label="Email" class="form-control" placeholder="Email" name="email">
+                            <span class="input-group-text">OR</span>
+                            <input type="tel" aria-label="Phone Number" class="form-control" placeholder="Phone Number" name="phone">
+                        </div>
+                    </div>
+                    <div class="form-floating mb-3">
+                        <textarea class="form-control" aria-label="Message" placeholder="Message" name="message" required id="floatingInput"></textarea>
+                        <label for="floatingInput">questions, inquiries, or feedback</label>
+                    </div>
+                    <div class="d-grid">
+                        <button class="btn btn-social" type="submit">Submit</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</footer>
+
+</html>

@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+    <h1>Admin Info</h1>
+    <table class="table table-striped text-center">
+        <thead>
+            <tr>
+                <th scope="col">Name</th>
+                <th scope="col">Password</th>
+                <th scope="col">Actions</th>
+            </tr>
+        </thead>
+        <tbody class="table-group-divider">
+                {% for admin in adminInfo %}
+                <tr>
+                    <td>{{ admin.username }}</td>
+                    <td><input  type="password" value="{{ admin.passwords }}" disabled class="btn-invs"></td>
+                    <td>
+                        <div class="icons">
+                            <a href="/editAcc/{{ admin.id }}" class="text-decoration-none">
+                                <i class="bi bi-pencil"></i>
+                            </a>
+                            <a href="/delAcc/{{ admin.id }}" class="text-decoration-none">
+                                <i class="bi bi-trash"></i>
+                            </a>
+                            <a href="/adminHistory/{{ admin.id }}" class="text-decoration-none">
+                                <i class="bi bi-clock-history"></i>
+                            </a>
+                        </div>
+                    </td>
+                </tr>
+            {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+    <h1>Admin History</h1>
+    <h4>Latest-Oldest</h4>
+    <table class="table text-center">
+        <thead>
+            <tr>
+                <th scope="col">Name</th>
+                <th scope="col">Action</th>
+                <th scope="col">Message</th>
+            </tr>
+        </thead>
+        <tbody class="table-group-divider">
+            {% for h in history %}
+                <tr {% if h.aName == session.name %}class="table-active" {% endif %}>
+                    <td>{{ h.aName }}</td>
+                    <td>{{ h.action }}</td>
+                    <td>{{ h.msg }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

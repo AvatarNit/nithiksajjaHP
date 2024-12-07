@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Delete Account {{ adminInfo.username }}</h1>
+<h2>Please type the name of the account to delete and your Admin Name</h2>
+<form action="/viewAcc" method="POST" class="text-center">
+    <div class="form-floating mb-3">
+        <input name="accName" type="text" class="form-control" id="floatingInput" placeholder="Account Name To Delete" autocomplete="off">
+        <label for="floatingInput">Account Name To Delete</label>
+    </div>
+    <div class="form-floating">
+        <input name="aName" type="text" class="form-control" id="floatingPassword" placeholder="Your Admin Name" autocomplete="off">
+        <label for="floatingPassword">Your Admin Name</label>
+    </div>
+    <div class="btn-group" role="group" aria-label="Basic mixed styles example">
+        <button type="submit" class="btn btn-danger" formaction="/viewAcc" formmethod="GET">Cancel</button>
+        <button type="submit" class="btn btn-success">Delete</button>
+    </div>
+    <input type="hidden" value="D" name="action">
+    <input type="hidden" value="{{ adminInfo.id }}" name="id">
+</form>
+{% endblock %}
