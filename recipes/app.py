@@ -85,7 +85,7 @@ app.session_interface = DatastoreSessionInterface(client=datastore_client)
 
 
 # Configure Session
-app.config["SERVER_NAME"] = "nithiksajja.com"
+app.config["SERVER_NAME"] = "recipes.nithiksajja.com"
 app.config["SESSION_TYPE"] = 'filesystem'
 UPLOAD_FOLDER = 'static/food'
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
@@ -96,7 +96,7 @@ if not os.path.exists(UPLOAD_FOLDER):
 
 # General Routes
 
-@app.route("/",subdomain="recipes", methods=["GET","POST"])
+@app.route("/", methods=["GET","POST"])
 def index():
     if request.method == "POST":
         result = rq.login(request.form.get("name"),request.form.get("pass"))
@@ -113,7 +113,7 @@ def index():
 
 # Recipe Related Routes
 
-@app.route("/viewRecipes",subdomain="recipes", methods=["GET", "POST"])
+@app.route("/viewRecipes", methods=["GET", "POST"])
 def viewRecipes():
     if request.method == "POST":
         filterCategory = request.form.get('category', "Meal Type")
@@ -125,7 +125,7 @@ def viewRecipes():
     categories = rq.get_categories()
     return render_template("viewRecipes.html", displayInfo=displayInfo, categories=categories)
 
-@app.route("/addRecipe",subdomain="recipes", methods=["GET", "POST"])
+@app.route("/addRecipe", methods=["GET", "POST"])
 def addRecipe():
     if request.method == "GET":
         return render_template("addRecipe.html")
@@ -163,7 +163,7 @@ def addRecipe():
                 return redirect("/")
 
 
-@app.route("/viewRecipe/<name>",subdomain="recipes")
+@app.route("/viewRecipe/<name>")
 def viewRecipe(name):
     recipe = rq.get_recipe_by_name(name)
     current_recipe = session.get('currentRecipe')
@@ -173,7 +173,7 @@ def viewRecipe(name):
     # return recipe
     return render_template("viewRecipe.html", recipe=recipe, current_recipe=current_recipe)
 
-@app.route('/toggle_favorite',subdomain="recipes", methods=['POST'])
+@app.route('/toggle_favorite', methods=['POST'])
 def toggle_favorite():
     data = request.json
     recipe_name = data.get('recipe_name')
@@ -184,7 +184,7 @@ def toggle_favorite():
     return jsonify(status='success')
 
 
-@app.route("/deleteRecipe/<name>",subdomain="recipes", methods=['POST', "GET"])
+@app.route("/deleteRecipe/<name>", methods=['POST', "GET"])
 def deleteRecipe(name):
     if request.method == "POST":
         if session.get('name') == request.form.get('adminName') and name == request.form.get('recipeName'):
@@ -202,13 +202,13 @@ def deleteRecipe(name):
 
 # History Related routes
 
-@app.route("/history",subdomain="recipes")
+@app.route("/history")
 def history():
     history = rq.get_history()
     reHistory = history[::-1]
     return render_template("history.html", history=reHistory)
 
-@app.route("/adminHistory/<int:id>",subdomain="recipes")
+@app.route("/adminHistory/<int:id>")
 def adminHistory(id):
     adminInfo = rq.get_admin_info_by_id(id)
     history = rq.get_history_by_name(adminInfo["username"])
@@ -216,22 +216,22 @@ def adminHistory(id):
 
 # Admin Account Related Routes
 
-@app.route("/admin",subdomain="recipes")
+@app.route("/admin")
 def admin():
     return render_template("admin.html")
 
-@app.route("/logout",subdomain="recipes")
+@app.route("/logout")
 def logout():
     name=session.get("name")
     session.clear()
     flash(f"Successfully Logged Out { name }", "success")
     return redirect("/")
 
-@app.route("/addAcc",subdomain="recipes")
+@app.route("/addAcc")
 def addAcc():
     return render_template("addAcc.html")
 
-@app.route("/viewAcc",subdomain="recipes", methods=["GET","POST"])
+@app.route("/viewAcc", methods=["GET","POST"])
 def viewAcc():
     if request.method == "POST":
         if request.form.get("action") == "A":
@@ -266,12 +266,12 @@ def viewAcc():
     adminInfo = rq.get_admin_info()
     return render_template("viewAcc.html", adminInfo=adminInfo)
 
-@app.route("/editAcc/<int:id>",subdomain="recipes")
+@app.route("/editAcc/<int:id>")
 def editAcc(id):
     adminInfo = rq.get_admin_info_by_id(id)
     return render_template("editAcc.html", adminInfo=adminInfo)
 
-@app.route("/delAcc/<int:id>",subdomain="recipes")
+@app.route("/delAcc/<int:id>")
 def delAcc(id):
     adminInfo = rq.get_admin_info_by_id(id)
     return render_template("delAcc.html", adminInfo=adminInfo)
@@ -279,6 +279,10 @@ def delAcc(id):
 
 # Conversions
 
-@app.route("/convert",subdomain="recipes")
+@app.route("/convert")
 def convert():
     return render_template("convert.html")
+
+if __name__ == "__main__":
+    app.config["SERVER_NAME"] = "nithiksajja.com"
+    app.run(debug=True)

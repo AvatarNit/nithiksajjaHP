@@ -80,6 +80,7 @@ class DatastoreSessionInterface(SessionInterface):
 
 app = Flask(__name__)
 app.secret_key = "704090s4N"
+# app.config["SERVER_NAME"] = "nithiksajja.com"
 
 # Set up Google Datastore as the session backend
 datastore_client = datastore.Client()
@@ -252,5 +253,4 @@ def delAcc(id):
 #     return render_template("/site1/index.html")
 
 if __name__ == "__main__":
-    app.config["SERVER_NAME"] = "nithiksajja.com"
     app.run(debug=True)

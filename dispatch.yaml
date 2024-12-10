@@ -1,0 +1,10 @@
+dispatch:
+  # Route requests for the main domain and www subdomain to the default service
+  - url: "nithiksajja.com/*"
+    service: default
+  - url: "www.nithiksajja.com/*"
+    service: default
+
+  # Route requests for the recipes subdomain to the recipes service
+  - url: "recipes.nithiksajja.com/*"
+    service: recipes
